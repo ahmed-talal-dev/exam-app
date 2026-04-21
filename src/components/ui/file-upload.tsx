@@ -2,6 +2,7 @@
 
 import React from "react";
 import { UploadCloud, Trash2, Download } from "lucide-react";
+import Image from "next/image";
 
 type FileUploadProps = {
     label?: string;
@@ -12,10 +13,16 @@ function FileUpload({
     label = "Label",
     multiple = false,
 }: FileUploadProps) {
+    // Stores uploaded files
     const [files, setFiles] = React.useState<File[]>([]);
+
+    // Controls drag-and-drop active state styling
     const [isDragging, setIsDragging] = React.useState(false);
+
+    // Stores preview URLs for uploaded images
     const [previews, setPreviews] = React.useState<string[]>([]);
 
+    // Adds selected or dropped files to state
     const addFiles = (newFiles: File[]) => {
         const urls = newFiles.map((file) =>
             URL.createObjectURL(file)
@@ -29,7 +36,7 @@ function FileUpload({
             multiple ? [...prev, ...urls] : urls
         );
     };
-
+    // Handles file selection from input
     const handleChange = (
         e: React.ChangeEvent<HTMLInputElement>
     ) => {
@@ -37,6 +44,7 @@ function FileUpload({
         addFiles(Array.from(e.target.files));
     };
 
+    // Handles files dropped inside the upload area
     const handleDrop = (e: React.DragEvent<HTMLLabelElement>) => {
         e.preventDefault();
         setIsDragging(false);
@@ -45,6 +53,7 @@ function FileUpload({
         addFiles(droppedFiles);
     };
 
+    // Removes selected file and its preview
     const removeFile = (index: number) => {
         URL.revokeObjectURL(previews[index]);
 
@@ -57,6 +66,7 @@ function FileUpload({
         );
     };
 
+    // Downloads the selected file
     const downloadFile = (file: File) => {
         const url = URL.createObjectURL(file);
 
@@ -70,10 +80,12 @@ function FileUpload({
 
     return (
         <div className="space-y-3">
-            <p className="font-mono text-[16px] font-medium text-[var(--gray-800)]">
+            {/* Upload section label */}
+            <p className="font-mono text-[16px] font-medium text-(--gray-800)">
                 {label}
             </p>
 
+            {/* Drag and drop upload area */}
             <label
                 onDragOver={(e) => {
                     e.preventDefault();
@@ -81,22 +93,23 @@ function FileUpload({
                 }}
                 onDragLeave={() => setIsDragging(false)}
                 onDrop={handleDrop}
-                className={`flex h-[86px] cursor-pointer items-center justify-center border transition-all ${isDragging
-                    ? "border-[var(--blue-600)] bg-[var(--blue-50)]"
-                    : "border-[var(--gray-300)]"
+                className={`flex h-21.5 cursor-pointer items-center justify-center border transition-all ${isDragging
+                    ? "border-(--blue-600) bg-(--blue-50)"
+                    : "border-(--gray-300)"
                     }`}
             >
-                <div className="flex items-center gap-2">
-                    <UploadCloud className="size-5 text-[var(--gray-500)]" />
+                <div className="flex items-center gap-2 px-12">
+                    <UploadCloud className="size-5 text-(--gray-500)" />
 
-                    <span className="font-mono text-sm text-[var(--gray-500)]">
+                    <span className="font-mono text-sm text-(--gray-500)">
                         Drop an image here or{" "}
-                        <span className="text-[var(--blue-600)]">
+                        <span className="text-(--blue-600)">
                             select from your computer
                         </span>
                     </span>
                 </div>
 
+                {/* Hidden native file input */}
                 <input
                     type="file"
                     multiple={multiple}
@@ -105,36 +118,49 @@ function FileUpload({
                 />
             </label>
 
+            {/* Uploaded files list */}
             {files.map((file, index) => (
                 <div
                     key={index}
-                    className="flex items-center justify-between bg-[var(--gray-50)] px-4 py-3"
+                    className="flex items-center justify-between bg-(--gray-50) px-4 py-3"
                 >
-                    <div className="flex min-w-0 flex-1 items-center gap-3">
-                        <img
-                            src={previews[index]}
-                            alt={file.name}
-                            className="size-16 shrink-0 object-cover"
-                        />
+                    {/* Left section: preview + file name    
+                     flex-1 keeps right actions fixed
+                     truncate prevents long names from breaking layout*/}
 
-                        <span className="truncate font-mono text-sm text-[var(--gray-700)]">
+                    <div className="flex min-w-0 flex-1 items-center gap-3">
+                        <div className="relative size-16 shrink-0">
+                            <Image
+                                src={previews[index]}
+                                alt={file.name}
+                                fill
+                                className="object-cover"
+                                unoptimized
+                            />
+                        </div>
+
+                        <span className="truncate font-mono text-sm text-(--gray-700)">
                             {file.name}
                         </span>
                     </div>
 
+                    {/* Right section:fixed size info + actions */}
                     <div className="ml-4 flex shrink-0 items-center gap-3">
-                        <span className="text-sm text-[var(--gray-400)]">
+                        <span className="text-sm text-(--gray-400)">
                             {(file.size / 1024 / 1024).toFixed(2)} MB
                         </span>
 
-                        <div className="h-[18px] w-px bg-[var(--gray-200)]" />
+                        {/* Vertical divider */}
+                        <div className="h-4.5 w-px bg-(--gray-200)" />
 
+                        {/* Download button */}
                         <button onClick={() => downloadFile(file)}>
-                            <Download className="size-4 text-[var(--blue-600)]" />
+                            <Download className="size-4 text-(--blue-600)" />
                         </button>
 
+                        {/* Delete button */}
                         <button onClick={() => removeFile(index)}>
-                            <Trash2 className="size-4 text-[var(--red-600)]" />
+                            <Trash2 className="size-4 text-(--red-600)" />
                         </button>
                     </div>
                 </div>
