@@ -74,7 +74,7 @@ function PaginationPrevious({
       aria-label="Go to previous page"
       size="default"
       className={cn(
-        "flex h-10 w-10 shrink-0 items-center justify-center border-l border-[var(--gray-200)] bg-[var(--gray-100)] text-[var(--gray-400)] transition-colors duration-200 hover:bg-[var(--gray-200)] hover:text-[var(--gray-500)]",
+        "flex h-10 w-10 shrink-0 items-center justify-center border-l border-(--gray-200) bg-(--gray-100) text-(--gray-400) transition-colors duration-200 hover:bg-(--gray-200) hover:text-(--gray-500)",
         className
       )}      {...props}
     >
@@ -92,7 +92,7 @@ function PaginationNext({
       aria-label="Go to next page"
       size="default"
       className={cn(
-        "flex h-10 w-10 shrink-0 items-center justify-center border-l border-[var(--gray-200)] bg-[var(--gray-100)] text-[var(--gray-400)] transition-colors duration-200 hover:bg-[var(--gray-200)] hover:text-[var(--gray-500)]",
+        "flex h-10 w-10 shrink-0 items-center justify-center border-l border-(--gray-200) bg-(--gray-100) text-(--gray-400) transition-colors duration-200 hover:bg-(--gray-200) hover:text-(--gray-500)",
         className
       )}
       {...props}

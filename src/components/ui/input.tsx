@@ -12,7 +12,7 @@ function Input({
       type={type}
       data-slot="input"
       className={cn(
-        "h-[46px] w-[347px] min-w-0 border border-[var(--gray-200)] bg-transparent px-[10px] font-mono text-[14px] font-normal text-[var(--gray-950)] outline-none placeholder:text-[var(--gray-400)] focus-visible:border-[var(--blue-600)] focus-visible:ring-0 disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 ",
+        "h-11.5 w-86.75 min-w-0 border border-(--gray-200) bg-transparent px-2.5 font-mono text-[14px] font-normal text-(--gray-950) outline-none placeholder:text-(--gray-400) focus-visible:border-(--blue-600) focus-visible:ring-0 disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 ",
         className
       )}
       {...props}

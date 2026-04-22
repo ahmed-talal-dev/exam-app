@@ -39,7 +39,7 @@ const PhoneInput = React.forwardRef<
         <RPNInput.default
             ref={ref}
             className={cn(
-                "flex h-[46px] w-[347px] items-center border border-[var(--gray-200)] px-[10px] bg-white",
+                "flex h-11.5 w-86.75 items-center border border-(--gray-200) px-2.5 bg-white",
                 className
             )}
             flagComponent={FlagComponent}
@@ -64,7 +64,7 @@ const InputComponent = React.forwardRef<
     <Input
         ref={ref}
         className={cn(
-            "ml-3 h-[18px] border-0 bg-transparent p-0 font-mono text-[14px] text-[var(--gray-400)] shadow-none focus-visible:ring-0",
+            "ml-3 h-4.5 border-0 bg-transparent p-0 font-mono text-[14px] text-(--gray-400) shadow-none focus-visible:ring-0",
             className
         )}
         {...props}
@@ -109,20 +109,20 @@ const CountrySelect = ({
                     type="button"
                     variant="ghost"
                     disabled={disabled}
-                    className="flex h-[21px] w-[105px] items-center gap-2 border-0 bg-transparent p-0 hover:bg-transparent shadow-none"
+                    className="flex h-5.25 w-26.5 items-center gap-2 border-0 bg-transparent p-0 hover:bg-transparent shadow-none"
                 >
                     <FlagComponent
                         country={selectedCountry}
                         countryName={selectedCountry}
                     />
-                    <span className="font-mono text-[14px] font-medium text-[var(--gray-950)]">
+                    <span className="font-mono text-[14px] font-medium text-(--gray-950)">
                         {selectedCountry}(+{RPNInput.getCountryCallingCode(selectedCountry)})
                     </span>
-                    <ChevronsUpDown className="h-[10px] w-[6px]" />
+                    <ChevronsUpDown className="h-2.5 w-1.5" />
                 </Button>
             </PopoverTrigger>
 
-            <PopoverContent className="w-[300px] p-0">
+            <PopoverContent className="w-75 p-0">
                 <Command>
                     <CommandInput
                         placeholder="Search country..."
@@ -223,7 +223,7 @@ const FlagComponent = ({
     const Flag = flags[country];
 
     return (
-        <span className="flex h-[16px] w-[23px] overflow-hidden">
+        <span className="flex h-4 w-5.75 overflow-hidden">
             {Flag && <Flag title={countryName} />}
         </span>
     );

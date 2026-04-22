@@ -20,7 +20,7 @@ function PasswordInput({
             <Input
                 type={showPassword ? "text" : "password"}
                 placeholder="****************"
-                className={cn("h-[46px] pr-10", className)}
+                className={cn("h-11.5 pr-10", className)}
                 {...props}
             />
 
@@ -29,13 +29,13 @@ function PasswordInput({
                 onClick={() =>
                     setShowPassword(!showPassword)
                 }
-                className="absolute right-[10px] top-1/2 -translate-y-1/2"
+                className="absolute right-2.5 top-1/2 -translate-y-1/2"
 
             >
                 {showPassword ? (
-                    <Eye className="size-5 text-[var(--gray-500)]" />
+                    <Eye className="size-5 text-(--gray-500)" />
                 ) : (
-                    <EyeOff className="size-5 text-[var(--gray-500)]" />
+                    <EyeOff className="size-5 text-(--gray-500)" />
                 )}
             </button>
         </div>

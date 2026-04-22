@@ -4,6 +4,6 @@
 
 export default function Home() {
   return (
-    <div></div>
+    <div>Hey next js!</div>
   );
 }

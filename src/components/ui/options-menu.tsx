@@ -23,7 +23,6 @@ type OptionsMenuProps = {
 
 function OptionsMenu({
     options,
-    selectedId,
     onSelect,
 }: OptionsMenuProps) {
     return (
@@ -38,8 +37,6 @@ function OptionsMenu({
             {/* Dropdown content */}
             <DropdownMenuContent className="w-86.25 p-0">
                 {options.map((option) => {
-                    const isSelected = option.id === selectedId;
-
                     return (
                         <DropdownMenuItem
                             key={option.id}
