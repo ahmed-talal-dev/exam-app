@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist_Mono, Inter } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/sonner";
+import Providers from "@/components/providers/global";
 
 
 
@@ -32,7 +33,8 @@ export default function RootLayout({
       lang="en"
       className={`${inter.variable}  ${geistMono.className} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">{children}
+      <body className="min-h-full flex flex-col">
+        <Providers>{children}</Providers>
         <Toaster />
       </body>
     </html>

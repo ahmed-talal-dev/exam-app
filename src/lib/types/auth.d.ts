@@ -2,6 +2,8 @@
  * the response returned from the login endpoint
  */
 
+import { loginSchema } from "../schemes/auth.schema";
+
 export interface LoginResponse {
     token: string;
     user: {
@@ -20,3 +22,5 @@ export interface LoginResponse {
         passwordChangedAt: string;
     }
 }
+
+export type LoginFields = z.infer<typeof loginSchema>;

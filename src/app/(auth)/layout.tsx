@@ -3,10 +3,13 @@ import AuthStaticLayout from './_components/auth-static-layout'
 
 export default function AuthLayout({ children }: { children: React.ReactNode }) {
     return (
-        <main className="min-h-screen grid grid-cols-2">
+        <main className="grid grid-cols-2">
+            {/*Side Sections*/}
             <AuthStaticLayout />
 
-            <section className="flex items-center justify-center bg-   ">
+            <section className="flex items-center justify-center">
+
+                {/*Content*/}
                 {children}
             </section>
         </main>

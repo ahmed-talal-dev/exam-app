@@ -1,4 +1,5 @@
 import React from 'react';
+import { cn } from '@/lib/utils/tailwind-merge';
 import { Brain, BookOpenCheck, RectangleEllipsis, FolderCode, LucideIcon } from 'lucide-react';
 
 // --- Types ---
@@ -9,18 +10,18 @@ interface FeatureItemProps {
 }
 
 // --- Sub-component: Feature Item ---
-const FeatureItem: React.FC<FeatureItemProps> = ({ title, description, Icon }) => {
+const FeatureItem = ({ title, description, Icon }: FeatureItemProps) => {
     return (
         <div className="flex flex-row items-start w-full gap-3 md:gap-4 lg:gap-5">
             <div className="box-border flex justify-center items-center shrink-0 w-8 h-8 md:w-9 md:h-9 border border-blue-600">
-                <Icon size={20} className="text-blue-600 md:text-blue-600" />
+                <Icon size={20} className="text-blue-600" />
             </div>
 
             <div className="flex flex-col items-start gap-1.5 md:gap-2 lg:gap-2.5 flex-grow">
-                <h3 className="font-mono font-semibold text-lg md:text-xl leading-5 md:leading-6.5 text-blue-600 m-0">
+                <h3 className="font-mono font-semibold text-lg md:text-xl leading-5 md:leading-relaxed text-blue-600 m-0">
                     {title}
                 </h3>
-                <p className="font-mono font-normal text-sm md:text-base leading-4 md:leading-5.25 text-muted-foreground m-0">
+                <p className="font-mono  text-sm md:text-base leading-4 md:leading-relaxed text-gray-700 m-0">
                     {description}
                 </p>
             </div>
@@ -28,12 +29,12 @@ const FeatureItem: React.FC<FeatureItemProps> = ({ title, description, Icon }) =
     );
 };
 
-// --- Main Component: Auth Static Layout (Left Panel) ---
+// --- Main Component: Auth Static Layout ---
 export default function AuthStaticLayout() {
     const features = [
         {
             title: "Tailored Diplomas",
-            description: "Choose from specialized tracks like Frontend, Backend, and Mobile Development.",
+            description: "Choose from specialized tracks like  Frontend, Backend, and Mobile Development.",
             Icon: Brain,
         },
         {
@@ -43,53 +44,52 @@ export default function AuthStaticLayout() {
         },
         {
             title: "Smart Multi-Step Forms",
-            description: "Choose from specialized tracks like Frontend, Backend, and Mobile Development.",
+            description: "Experience seamless and intuitive form navigation for better user input.",
             Icon: RectangleEllipsis,
         },
     ];
 
     return (
-        <aside className="relative flex flex-col justify-center items-center w-full h-full grow self-stretch overflow-hidden bg-blue-50/20">
-
-            {/* Circles */}
-            <div className="absolute -top-10 -right-20 w-64 h-64 md:w-80 md:h-80 lg:w-100.5 lg:h-100.5 bg-blue-400 rounded-full z-0" />
-            <div className="absolute -bottom-20 -left-20 w-64 h-64 md:w-80 md:h-80 lg:w-100.5 lg:h-100.5 bg-blue-400 rounded-full z-0" />
-
-            {/* Overlay */}
-            <div className="absolute inset-0 bg-blue-50/75 backdrop-blur-3xl z-10" />
-
+        <aside
+            className={cn(
+                "relative flex flex-col justify-center items-center w-full h-full grow self-stretch overflow-hidden bg-blue-50/20",
+                "before:absolute before:-top-24 before:-right-16 before:w-64 before:h-64 md:before:w-80 md:before:h-80 lg:before:w-100 lg:before:h-100 before:bg-blue-200 before:rounded-full before:blur-3xl before:-z-10",
+                "after:absolute after:-bottom-24 after:-left-16 after:w-64 after:h-64 md:after:w-80 md:after:h-80 lg:after:w-100 lg:after:h-100 after:bg-blue-200 after:rounded-full after:blur-3xl after:-z-10"
+            )}
+        >
             {/* Main Content */}
-            <div className="relative z-20 flex flex-col items-start w-full max-w-sm md:max-w-md lg:max-w-114.5 px-6 md:px-12 lg:px-0">
+            <div className="relative z-20 flex flex-col items-start w-full max-w-sm md:max-w-md lg:max-w-xl px-6 md:px-12 lg:px-0">
 
                 {/* Header / Logo */}
-                <header className="flex flex-row items-center gap-2.5 w-full h-10 mb-12 md:mb-24">
+                <header className="flex flex-row items-center gap-2.5 w-full h-10 mb-12 md:mb-24 ">
+                    {/* Logo */}
                     <div className="flex justify-center items-center w-10 h-10 p-1.5">
                         <FolderCode size={28} className="text-blue-600" />
                     </div>
-                    <span className="font-mono font-semibold text-xl leading-6.5 text-blue-600">
+
+                    {/* Name */}
+                    <span className="font-mono font-semibold text-xl leading-relaxed text-blue-600">
                         Exam App
                     </span>
                 </header>
 
                 {/* Main Content Area */}
                 <main className="flex flex-col justify-center items-start gap-10 md:gap-12 lg:gap-16 w-full">
-
-                    <h1 className="font-sans font-bold text-2xl md:text-3xl lg:text-3xl leading-8 md:leading-9 text-card-foreground m-0">
-                        Empower your learning journey with our smart exam platform.
+                    <h1 className="font-inter font-bold text-3xl md:text-3xl- leading-8 md:leading-10 text-gray-800 m-0">
+                        Empower your learning journey <br /> with our smart exam platform.
                     </h1>
 
                     {/* Features List */}
-                    <div className="flex flex-col items-start gap-7 md:gap-8 lg:gap-9 w-full">
-                        {features.map((feature, index) => (
+                    <div className="flex flex-col items-start gap-7 md:gap-8 w-full">
+                        {features.map((feature) => (
                             <FeatureItem
-                                key={index}
+                                key={feature.title}
                                 title={feature.title}
                                 description={feature.description}
                                 Icon={feature.Icon}
                             />
                         ))}
                     </div>
-
                 </main>
             </div>
         </aside>
