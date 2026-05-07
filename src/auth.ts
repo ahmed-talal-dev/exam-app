@@ -13,7 +13,7 @@ export const authOptions: NextAuthOptions = {
             },
             authorize: async (credentials) => {
                 const response = await fetch(`${process.env.API}/auth/signin`, {
-                    method: 'post',
+                    method: 'POST',
                     body: JSON.stringify({
                         email: credentials?.email,
                         password: credentials?.password,

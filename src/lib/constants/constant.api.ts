@@ -1,3 +1,3 @@
 export const JSON_HEADER = {
-    'contant-type': 'application/json'
-}
+    'content-type': 'application/json',
+};

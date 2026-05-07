@@ -22,9 +22,7 @@ const PasswordInput = React.forwardRef<HTMLInputElement, React.ComponentProps<"i
 
                 <button
                     type="button"
-                    onClick={() =>
-                        setShowPassword(!showPassword)
-                    }
+                    onClick={() => setShowPassword(prev => !prev)}
                     className="absolute right-2.5 top-1/2 -translate-y-1/2"
 
                 >

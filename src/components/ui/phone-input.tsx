@@ -34,12 +34,13 @@ type PhoneInputProps = Omit<
 const PhoneInput = React.forwardRef<
     React.ElementRef<typeof RPNInput.default>,
     PhoneInputProps
->(({ className, onChange, value, ...props }, ref) => {
+>(({ className, onChange, value, defaultCountry = "EG", ...props }, ref) => {
     return (
         <RPNInput.default
             ref={ref}
+            defaultCountry={defaultCountry}
             className={cn(
-                "flex h-11.5 w-86.75 items-center border border-(--gray-200) px-2.5 bg-white",
+                "flex h-11.5 w-full items-center border border-(--gray-200) px-2.5 bg-white",
                 className
             )}
             flagComponent={FlagComponent}
@@ -115,9 +116,12 @@ const CountrySelect = ({
                         country={selectedCountry}
                         countryName={selectedCountry}
                     />
-                    <span className="font-mono text-[14px] font-medium text-(--gray-950)">
-                        {selectedCountry}(+{RPNInput.getCountryCallingCode(selectedCountry)})
-                    </span>
+                    {/* التعديل الرئيسي هنا لمنع الخطأ */}
+                    {selectedCountry && (
+                        <span className="font-mono text-[14px] font-medium text-(--gray-950)">
+                            {selectedCountry} (+{RPNInput.getCountryCallingCode(selectedCountry)})
+                        </span>
+                    )}
                     <ChevronsUpDown className="h-2.5 w-1.5" />
                 </Button>
             </PopoverTrigger>
@@ -220,10 +224,11 @@ const FlagComponent = ({
     country,
     countryName,
 }: RPNInput.FlagProps) => {
-    const Flag = flags[country];
+    // تعديل إضافي هنا للحماية لو الدولة غير موجودة
+    const Flag = country ? flags[country] : undefined;
 
     return (
-        <span className="flex h-4 w-5.75 overflow-hidden">
+        <span className="flex h-4 w-5.75 overflow-hidden bg-gray-100 rounded-sm">
             {Flag && <Flag title={countryName} />}
         </span>
     );

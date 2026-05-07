@@ -21,9 +21,11 @@ const FeatureItem = ({ title, description, Icon }: FeatureItemProps) => {
                 <h3 className="font-mono font-semibold text-lg md:text-xl leading-5 md:leading-relaxed text-blue-600 m-0">
                     {title}
                 </h3>
-                <p className="font-mono  text-sm md:text-base leading-4 md:leading-relaxed text-gray-700 m-0">
+                <p className="font-mono  text-sm md:text-base  leading-4 md:leading-relaxed text-gray-700 m-0">
                     {description}
                 </p>
+
+
             </div>
         </div>
     );
@@ -52,7 +54,7 @@ export default function AuthStaticLayout() {
     return (
         <aside
             className={cn(
-                "relative flex flex-col justify-center items-center w-full h-full grow self-stretch overflow-hidden bg-blue-50/20",
+                "relative flex flex-col justify-center items-center w-full h-full grow self-stretch overflow-hidden  bg-blue-50/20",
                 "before:absolute before:-top-24 before:-right-16 before:w-64 before:h-64 md:before:w-80 md:before:h-80 lg:before:w-100 lg:before:h-100 before:bg-blue-200 before:rounded-full before:blur-3xl before:-z-10",
                 "after:absolute after:-bottom-24 after:-left-16 after:w-64 after:h-64 md:after:w-80 md:after:h-80 lg:after:w-100 lg:after:h-100 after:bg-blue-200 after:rounded-full after:blur-3xl after:-z-10"
             )}
