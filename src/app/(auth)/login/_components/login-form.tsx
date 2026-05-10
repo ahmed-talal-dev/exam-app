@@ -31,25 +31,21 @@ export default function LoginForm() {
 
     return (
         <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className='flex flex-col gap-4 max-w-112 w-full my-9'>
-                {/*email*/}
+            <form onSubmit={form.handleSubmit(onSubmit)} className='flex flex-col gap-4 w-full my-7 md:my-9'>                {/* email */}
                 <FormField
                     control={form.control}
                     name='email'
                     render={({ field }) => (
                         <FormItem>
-                            {/*label*/}
                             <FormLabel>Username</FormLabel>
-                            {/*field*/}
                             <FormControl>
-                                <Input placeholder="user@example.com"  {...field} autoComplete='email' />
+                                <Input placeholder="user@example.com" {...field} autoComplete='email' />
                             </FormControl>
-                            {/*message*/}
                             <FormMessage />
                         </FormItem>
                     )}
                 />
-                {/*password*/}
+                {/* password */}
                 <FormField
                     control={form.control}
                     name='password'
@@ -57,25 +53,28 @@ export default function LoginForm() {
                         <FormItem>
                             <FormLabel>Password</FormLabel>
                             <FormControl>
-                                <PasswordInput {...field} autoComplete='current password' />
+                                <PasswordInput {...field} autoComplete='current-password' />
                             </FormControl>
                             <FormMessage />
                         </FormItem>
                     )}
                 />
-                {/* forget password*/}
-                <Link href='/forget-password' className='text-sm text-primary font-medium block -mt-1.5 self-end'>Forget your password?</Link>
+                {/* forget password */}
+                <Link href='/forgot-password' className='text-sm text-primary font-medium block -mt-1.5 self-end'>
+                    Forget your password?
+                </Link>
 
-                {/*feedback*/}
+                {/* feedback */}
                 <SubmissionFeedback className='mt-6'>{error?.message}</SubmissionFeedback>
-                {/*Submit*/}
+
+                {/* Submit */}
                 <Button
                     disabled={isPending || (!form.formState.isValid && form.formState.isSubmitted)}
-                    type='submit' className='w-full mt-6'>
-                    login
+                    type='submit'
+                    className='w-full mt-6'>
+                    Login
                 </Button>
             </form>
-
         </Form>
 
     )

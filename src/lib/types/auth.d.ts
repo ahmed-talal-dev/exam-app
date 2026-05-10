@@ -27,3 +27,8 @@ export interface LoginResponse {
 export type LoginFields = z.infer<typeof loginSchema>;
 
 export type RegisterFields = z.infer<ReturnType<typeof registerSchema>>;
+
+export type ForgotPasswordFields =
+    z.infer<typeof forgotPasswordEmailSchema> &
+    z.infer<typeof forgotPasswordOtpSchema> &
+    z.infer<typeof forgotPasswordNewPasswordSchema>

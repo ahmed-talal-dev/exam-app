@@ -102,7 +102,9 @@ const CountrySelect = ({
             modal
             onOpenChange={(open) => {
                 setIsOpen(open);
-                open && setSearchValue("");
+                if (open) {
+                    setSearchValue("");
+                }
             }}
         >
             <PopoverTrigger asChild>
@@ -116,13 +118,12 @@ const CountrySelect = ({
                         country={selectedCountry}
                         countryName={selectedCountry}
                     />
-                    {/* التعديل الرئيسي هنا لمنع الخطأ */}
                     {selectedCountry && (
                         <span className="font-mono text-[14px] font-medium text-(--gray-950)">
                             {selectedCountry} (+{RPNInput.getCountryCallingCode(selectedCountry)})
                         </span>
                     )}
-                    <ChevronsUpDown className="h-2.5 w-1.5" />
+                    <ChevronsUpDown className="h-2.5 w-1.5 -me-3" />
                 </Button>
             </PopoverTrigger>
 
@@ -224,7 +225,6 @@ const FlagComponent = ({
     country,
     countryName,
 }: RPNInput.FlagProps) => {
-    // تعديل إضافي هنا للحماية لو الدولة غير موجودة
     const Flag = country ? flags[country] : undefined;
 
     return (
