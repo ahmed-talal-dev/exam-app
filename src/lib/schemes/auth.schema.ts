@@ -32,6 +32,10 @@ export const registerSchema = z.object({
 // Step schemas
 export const stepEmailSchema = z.object({
     email: z.string().email('Email is invalid'),
+    otp: z.string().length(6, 'OTP must be 6 digits'),
+    password: z.string(),
+    rePassword: z.string(),
+
 });
 
 export const stepUserInfoSchema = z.object({

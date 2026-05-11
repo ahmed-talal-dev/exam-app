@@ -20,7 +20,7 @@ export default function ForgotPasswordStepper() {
         },
     })
 
-    const goNext = () => setCurrentStep((s) => Math.min(s + 1, 3))
+    const goNext = () => setCurrentStep((s) => Math.min(s + 1, 2))
     const goBack = () => setCurrentStep((s) => Math.max(s - 1, 1))
 
     return (

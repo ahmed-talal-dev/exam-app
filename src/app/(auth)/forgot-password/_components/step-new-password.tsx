@@ -36,15 +36,16 @@ export default function StepNewPassword({ form, onBack }: Props) {
         resetPassword({
             email: form.getValues('email'),
             newPassword: values.password,
+            resetCode: form.getValues('otp'),
         })
     })
 
     return (
         <Form {...stepForm}>
-            <form onSubmit={handleSubmit} className="flex flex-col gap-4 w-full">
+            <form onSubmit={handleSubmit} className="flex flex-col w-full gap-4">
                 <div className="mb-2">
                     <h2 className="text-2xl font-bold text-foreground">Create a New Password</h2>
-                    <p className="text-sm text-muted-foreground mt-1 font-mono">
+                    <p className="mt-1 font-mono text-sm text-muted-foreground">
                         Create a new strong password for your account.
                     </p>
                 </div>
@@ -83,13 +84,12 @@ export default function StepNewPassword({ form, onBack }: Props) {
                     {isPending ? 'Resetting...' : 'Reset Password'}
                 </Button>
 
-                <p className="text-center text-sm text-muted-foreground">
+                <p className="text-sm text-center text-muted-foreground">
                     Don&apos;t have an account?{' '}
-                    <a href="/register" className="text-primary hover:underline font-medium">
+                    <a href="/register" className="font-medium text-primary hover:underline">
                         Create yours
                     </a>
                 </p>
             </form>
-        </Form>
-    )
+        </Form>)
 }

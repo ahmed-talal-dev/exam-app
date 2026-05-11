@@ -26,13 +26,14 @@ export default function StepEmail({ form, onNext }: StepEmailProps) {
     })
 
     const handleNext = stepForm.handleSubmit((values) => {
+        console.log('step email submitted', values)
         form.setValue('email', values.email)
         onNext()
     })
 
     return (
         <Form {...stepForm}>
-            <form onSubmit={handleNext} className="flex flex-col gap-4 w-full">
+            <form onSubmit={handleNext} className="flex flex-col w-full gap-4">
 
 
                 <FormField
