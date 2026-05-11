@@ -7,7 +7,7 @@ export default function useLogout() {
     const { data: session } = useSession()
 
     const logout = async () => {
-        await fetch(`${process.env.NEXT_PUBLIC_API}/auth/logout`, {
+        await fetch(`${process.env.NEXT_PUBLIC_API}/api/auth/logout`, {
             method: 'GET',
             headers: {
                 ...JSON_HEADER,

@@ -5,11 +5,12 @@ import { JSON_HEADER } from '@/lib/constants/constant.api'
 export default function useForgotPassword() {
     const { isPending, error, mutate } = useMutation({
         mutationFn: async (email: string) => {
-            const response = await fetch(`${process.env.NEXT_PUBLIC_API}/auth/forgotPassword`, {
-                method: 'POST',
-                body: JSON.stringify({ email }),
-                headers: { ...JSON_HEADER },
-            })
+            const response = await fetch(`${process.env.NEXT_PUBLIC_API}/api/auth/forgot-password`
+                , {
+                    method: 'POST',
+                    body: JSON.stringify({ email }),
+                    headers: { ...JSON_HEADER },
+                })
 
             const payload = await response.json()
 

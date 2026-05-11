@@ -2,7 +2,6 @@
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import StepForgotEmail from './step-forgot-email'
-import StepForgotOtp from './step-forgot-otp'
 import StepNewPassword from './step-new-password'
 import { ForgotPasswordFields } from '@/lib/types/auth'
 
@@ -29,10 +28,10 @@ export default function ForgotPasswordStepper() {
             {currentStep === 1 && (
                 <StepForgotEmail form={form} onNext={goNext} />
             )}
-            {currentStep === 2 && (
+            {/* {currentStep === 2 && (
                 <StepForgotOtp form={form} onNext={goNext} onBack={goBack} />
-            )}
-            {currentStep === 3 && (
+            )} */}
+            {currentStep === 2 && (
                 <StepNewPassword form={form} onBack={goBack} />
             )}
         </div>

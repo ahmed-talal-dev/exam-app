@@ -6,6 +6,7 @@ import { JSON_HEADER } from '@/lib/constants/constant.api'
 type ResetPasswordPayload = {
     email: string
     newPassword: string
+    resetCode: string
 }
 
 export default function useResetPassword() {
@@ -13,9 +14,13 @@ export default function useResetPassword() {
 
     const { isPending, error, mutate } = useMutation({
         mutationFn: async (payload: ResetPasswordPayload) => {
-            const response = await fetch(`${process.env.NEXT_PUBLIC_API}/auth/resetPassword`, {
-                method: 'PUT',
-                body: JSON.stringify(payload),
+            const response = await fetch(`${process.env.NEXT_PUBLIC_API}/api/auth/reset-password`, {
+                method: 'POST',
+                body: JSON.stringify({
+                    email: payload.email,
+                    newPassword: payload.newPassword,
+                    resetCode: payload.resetCode,
+                }),
                 headers: { ...JSON_HEADER },
             })
 

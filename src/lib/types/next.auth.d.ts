@@ -41,6 +41,8 @@ declare module "next-auth" {
             profilePhoto: string,
             createdAt: string,
             updatedAt: string,
+            token: string;
+
         }
     }
 }
