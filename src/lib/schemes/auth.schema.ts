@@ -15,7 +15,9 @@ const passwordSchema = z.string()
 export const registerSchema = z.object({
     firstName: z.string().min(1, 'First name is required'),
     lastName: z.string().min(1, 'Last name is required'),
-    username: z.string().min(3, 'Username must be at least 3 characters'),
+    username: z.string()
+        .min(3, 'Username must be at least 3 characters')
+        .regex(/^[a-zA-Z0-9_]+$/, 'Username can only contain letters, numbers, and underscores'),
     email: z.string().email('Email is invalid'),
     phone: z.string()
         .min(10, 'Phone must be at least 10 digits')
@@ -35,10 +37,12 @@ export const stepEmailSchema = z.object({
 export const stepUserInfoSchema = z.object({
     firstName: z.string().min(1, 'First name is required'),
     lastName: z.string().min(1, 'Last name is required'),
-    username: z.string().min(3, 'Username must be at least 3 characters'),
+    username: z.string()
+        .min(3, 'Username must be at least 3 characters')
+        .regex(/^[a-zA-Z0-9_]+$/, 'Username can only contain letters, numbers, and underscores'),
     phone: z.string()
-        .min(10, 'Phone must be at least 10 digits')
-        .regex(/^[0-9]+$/, 'Phone must contain numbers only'),
+        .min(1, 'Phone is required')
+        .regex(/^\+?[0-9]+$/, 'Phone must contain numbers only'),
 });
 
 export const stepPasswordSchema = z.object({

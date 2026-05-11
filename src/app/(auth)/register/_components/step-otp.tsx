@@ -5,6 +5,8 @@ import { Button } from '@/components/ui/button'
 import { InputOTP, InputOTPGroup, InputOTPSlot } from '@/components/ui/input-otp'
 import { RegisterFields } from '@/lib/types/auth'
 import useSentOtp from '../_hooks/use-sent-otp'
+import useVerifyOtp from '../_hooks/use-verify-otp'
+import SubmissionFeedback from '@/components/shared/submission-feedback'
 
 type StepOtpProps = {
     form: UseFormReturn<RegisterFields>
@@ -15,13 +17,14 @@ type StepOtpProps = {
 export default function StepOtp({ form, onNext, onBack }: StepOtpProps) {
     const [otp, setOtp] = useState('')
     const email = form.getValues('email')
-    const { isPending, sentOtp } = useSentOtp()
+    const { isPending: isResending, sentOtp } = useSentOtp()
+    const { isPending, error, verifyOtp } = useVerifyOtp()
 
     const handleVerify = () => {
-        // TODO: هنضيف verify endpoint هنا لما يجي جاهز
-        // في الوقت الحالي بنعدي على طول
         if (otp.length === 6) {
-            onNext()
+            verifyOtp({ email, otp }, {
+                onSuccess: () => onNext(),
+            })
         }
     }
 
@@ -30,17 +33,17 @@ export default function StepOtp({ form, onNext, onBack }: StepOtpProps) {
     }
 
     return (
-        <div className="flex flex-col gap-6 w-full">
+        <div className="flex flex-col w-full gap-6">
             <div className="mb-2">
                 <h2 className="text-lg text-blue-600 font-inter font-bold text-[1.5rem] mt-1">Verify OTP</h2>
-                <p className="text-sm text-muted-foreground mt-1 w-full">
+                <p className="w-full mt-1 text-sm text-muted-foreground">
                     Please enter the 6-digits code we have sent to:{' '}
                     <span className="font-medium text-foreground">{email}</span>
                     {' '}
                     <button
                         type="button"
                         onClick={onBack}
-                        className="text-primary hover:underline text-xs"
+                        className="text-xs text-primary hover:underline"
                     >
                         Edit
                     </button>
@@ -49,11 +52,7 @@ export default function StepOtp({ form, onNext, onBack }: StepOtpProps) {
 
             {/* OTP Input */}
             <div className="flex justify-center">
-                <InputOTP
-                    maxLength={6}
-                    value={otp}
-                    onChange={setOtp}
-                >
+                <InputOTP maxLength={6} value={otp} onChange={setOtp}>
                     <InputOTPGroup>
                         <InputOTPSlot index={0} />
                         <InputOTPSlot index={1} />
@@ -65,16 +64,18 @@ export default function StepOtp({ form, onNext, onBack }: StepOtpProps) {
                 </InputOTP>
             </div>
 
+            <SubmissionFeedback>{error?.message}</SubmissionFeedback>
+
             {/* Resend */}
-            <p className="text-center text-sm text-muted-foreground">
+            <p className="text-sm text-center text-muted-foreground">
                 You can request another code in: 60s{' '}
                 <button
                     type="button"
                     onClick={handleResend}
-                    disabled={isPending}
-                    className="text-primary hover:underline font-medium disabled:opacity-50"
+                    disabled={isResending}
+                    className="font-medium text-primary hover:underline disabled:opacity-50"
                 >
-                    {isPending ? 'Sending...' : 'Resend'}
+                    {isResending ? 'Sending...' : 'Resend'}
                 </button>
             </p>
 
@@ -87,9 +88,9 @@ export default function StepOtp({ form, onNext, onBack }: StepOtpProps) {
                     type="button"
                     className="flex-1"
                     onClick={handleVerify}
-                    disabled={otp.length < 6}
+                    disabled={otp.length < 6 || isPending}
                 >
-                    Verify Code
+                    {isPending ? 'Verifying...' : 'Verify Code'}
                 </Button>
             </div>
         </div>

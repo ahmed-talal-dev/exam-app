@@ -5,7 +5,7 @@ import { JSON_HEADER } from "@/lib/constants/constant.api";
 export default function useSentOtp() {
     const { isPending, error, mutate } = useMutation({
         mutationFn: async (email: string) => {
-            const response = await fetch(`${process.env.NEXT_PUBLIC_API}/auth/send-otp`, {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_API}/api/auth/send-email-verification`, {
                 method: "POST",
                 body: JSON.stringify({ email }),
                 headers: { ...JSON_HEADER },

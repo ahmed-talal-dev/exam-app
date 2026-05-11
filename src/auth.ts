@@ -12,15 +12,13 @@ export const authOptions: NextAuthOptions = {
                 password: {},
             },
             authorize: async (credentials) => {
-                const response = await fetch(`${process.env.NEXT_PUBLIC_API}/auth/signin`, {
+                const response = await fetch(`${process.env.NEXT_PUBLIC_API}/api/auth/login`, {
                     method: 'POST',
                     body: JSON.stringify({
                         email: credentials?.email,
                         password: credentials?.password,
                     }),
-                    headers: {
-                        ...JSON_HEADER,
-                    },
+                    headers: { ...JSON_HEADER },
                 });
 
                 const payload: APIResponse<LoginResponse> = await response.json();
@@ -28,18 +26,21 @@ export const authOptions: NextAuthOptions = {
                     throw new Error(payload.message)
                 }
                 return {
-                    id: payload.user._id,
+                    id: payload.user.id,
                     accessToken: payload.token,
                     user: {
-                        _id: payload.user._id,
+                        _id: payload.user.id,
                         username: payload.user.username,
                         firstName: payload.user.firstName,
                         lastName: payload.user.lastName,
                         email: payload.user.email,
                         phone: payload.user.phone,
                         role: payload.user.role,
-                        isVerified: payload.user.isVerified,
+                        emailVerified: payload.user.emailVerified,
+                        phoneVerified: payload.user.phoneVerified,
+                        profilePhoto: payload.user.profilePhoto,
                         createdAt: payload.user.createdAt,
+                        updatedAt: payload.user.updatedAt,
                     }
                 }
             },

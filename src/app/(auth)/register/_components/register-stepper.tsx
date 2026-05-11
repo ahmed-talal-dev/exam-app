@@ -1,6 +1,6 @@
 'use client'
 import { useState } from 'react'
-import { useForm } from 'react-hook-form'
+import { SubmitHandler, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { registerSchema } from '@/lib/schemes/auth.schema'
 import { RegisterFields } from '@/lib/types/auth'
@@ -40,15 +40,16 @@ export default function RegisterStepper() {
     const goNext = () => setCurrentStep((s) => Math.min(s + 1, STEPS.length))
     const goBack = () => setCurrentStep((s) => Math.max(s - 1, 1))
 
-    // لما المستخدم يكمل الـ email step، بنبعت الـ OTP أوتوماتيك
     const handleEmailNext = () => {
-        sentOtp(form.getValues('email'))
-        goNext()
+        sentOtp(form.getValues('email'), {
+            onSuccess: () => goNext(),
+        })
     }
 
-    const onSubmit = () => {
+    const handleSubmit = () => {
         register(form.getValues())
     }
+
 
     return (
         <div className="w-full max-w-md">
@@ -103,7 +104,7 @@ export default function RegisterStepper() {
                 <StepPassword
                     form={form}
                     onBack={goBack}
-                    onSubmit={onSubmit}
+                    onSubmit={handleSubmit}
                     isPending={isPending}
                     error={error}
                 />

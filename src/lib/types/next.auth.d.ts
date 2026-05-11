@@ -1,10 +1,11 @@
 import { User } from "next-auth"
 
+
+/**
+* The shape of the user object returned in the OAuth providers' `profile` callback,
+* or the second parameter of the `session` callback, when using a database.
+*/
 declare module "next-auth" {
-    /**
- * The shape of the user object returned in the OAuth providers' `profile` callback,
- * or the second parameter of the `session` callback, when using a database.
- */
     interface User {
         accessToken: string;
         user: {
@@ -15,19 +16,53 @@ declare module "next-auth" {
             email: string,
             phone: string,
             role: string,
-            isVerified: boolean,
-            createdAt: string
+            emailVerified: boolean,
+            phoneVerified: boolean,
+            profilePhoto: string,
+            createdAt: string,
+            updatedAt: string,
         }
     }
     /**
         /**
          * Returned by `useSession`, `getSession` and received as a prop on the `SessionProvider` React Context
          */
-    type Session = User[user];
+    interface Session {
+        user: {
+            _id: string,
+            username: string,
+            firstName: string,
+            lastName: string,
+            email: string,
+            phone: string,
+            role: string,
+            emailVerified: boolean,
+            phoneVerified: boolean,
+            profilePhoto: string,
+            createdAt: string,
+            updatedAt: string,
+        }
+    }
 }
 
 
+
 declare module "next-auth/jwt" {
-    /** Returned by the `jwt` callback and `getToken`, when using JWT sessions */
-    type JWT = User[token]
+    interface JWT {
+        accessToken: string,
+        user: {
+            _id: string,
+            username: string,
+            firstName: string,
+            lastName: string,
+            email: string,
+            phone: string,
+            role: string,
+            emailVerified: boolean,
+            phoneVerified: boolean,
+            profilePhoto: string,
+            createdAt: string,
+            updatedAt: string,
+        }
+    }
 }
