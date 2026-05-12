@@ -1,25 +1,41 @@
 import { getToken } from "next-auth/jwt";
 import { NextRequest, NextResponse } from "next/server";
 
-const authPages = new Set(["/login", "/register", "/forgot-password"]);
+const privateRoutes = ['/account', '/diplomas', '/exams'];
+const authRoutes = ['/login', '/register', '/forgot-password'];
 
-export default async function middleware(req: NextRequest) {
-    const { pathname } = req.nextUrl;
-    const token = await getToken({ req });
+export default async function middleware(request: NextRequest) {
+    const token = await getToken({
+        req: request,
+        secret: process.env.NEXTAUTH_SECRET,
+    });
+    const { pathname } = request.nextUrl;
 
-    if (!authPages.has(pathname)) {
+    const isPrivateRoute =
+        privateRoutes.some(route => pathname.startsWith(route)) || pathname === '/';
+
+    if (isPrivateRoute) {
         if (token) return NextResponse.next();
-
-        const redirectUrl = new URL("/login", req.nextUrl.origin);
-
-        redirectUrl.searchParams.set("callbackUrl", pathname);
-
+        const redirectUrl = new URL('/login', request.nextUrl.origin);
+        redirectUrl.searchParams.set('callbackUrl', pathname);
         return NextResponse.redirect(redirectUrl);
     }
 
-    if (!token) return NextResponse.next();
+    if (authRoutes.includes(pathname)) {
+        if (token) {
+            return NextResponse.redirect(new URL('/', request.nextUrl.origin));
+        }
+        return NextResponse.next();
+    }
 
-    return NextResponse.redirect(new URL("/", req.nextUrl.origin));
+    if (pathname === '/reset-password') {
+        if (request.nextUrl.searchParams.has('token') && !token) {
+            return NextResponse.next();
+        }
+        return NextResponse.redirect(new URL('/forgot-password', request.nextUrl.origin));
+    }
+
+    return NextResponse.next();
 }
 
 export const config = {

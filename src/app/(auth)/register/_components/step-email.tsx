@@ -26,7 +26,6 @@ export default function StepEmail({ form, onNext }: StepEmailProps) {
     })
 
     const handleNext = stepForm.handleSubmit((values) => {
-        console.log('step email submitted', values)
         form.setValue('email', values.email)
         onNext()
     })
