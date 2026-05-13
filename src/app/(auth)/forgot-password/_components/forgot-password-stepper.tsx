@@ -15,8 +15,6 @@ export default function ForgotPasswordStepper() {
         defaultValues: {
             email: '',
             resetToken: '',
-            password: '',
-            rePassword: '',
         },
     })
 

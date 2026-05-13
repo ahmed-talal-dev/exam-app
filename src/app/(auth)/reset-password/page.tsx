@@ -1,4 +1,5 @@
 'use client'
+import { Suspense } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -23,7 +24,8 @@ const schema = z.object({
 
 type FormFields = z.infer<typeof schema>
 
-export default function ResetPasswordPage() {
+// ← component منفصل جوه نفس الملف
+function ResetPasswordForm() {
     const searchParams = useSearchParams()
     const token = searchParams.get('token') ?? ''
     const { isPending, error, resetPassword } = useResetPassword()
@@ -98,5 +100,13 @@ export default function ResetPasswordPage() {
                 </Form>
             </div>
         </div>
+    )
+}
+
+export default function ResetPasswordPage() {
+    return (
+        <Suspense fallback={null}>
+            <ResetPasswordForm />
+        </Suspense>
     )
 }

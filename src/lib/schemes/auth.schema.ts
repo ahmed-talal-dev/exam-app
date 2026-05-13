@@ -61,10 +61,10 @@ export const forgotPasswordOtpSchema = z.object({
     resetToken: z.string().min(1),
 });
 
-export const forgotPasswordNewPasswordSchema = z.object({
-    password: passwordSchema,
-    rePassword: z.string().min(1, 'Confirm password is required'),
-}).refine((data) => data.password === data.rePassword, {
-    message: 'Passwords do not match',
-    path: ['rePassword'],
-});
+// export const forgotPasswordNewPasswordSchema = z.object({
+//     password: passwordSchema,
+//     rePassword: z.string().min(1, 'Confirm password is required'),
+// }).refine((data) => data.password === data.rePassword, {
+//     message: 'Passwords do not match',
+//     path: ['rePassword'],
+// });
