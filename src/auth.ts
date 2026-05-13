@@ -4,18 +4,26 @@ import { JSON_HEADER } from "./lib/constants/constant.api";
 import { LoginResponse } from "./lib/types/auth";
 
 export const authOptions: NextAuthOptions = {
+    pages: {
+        signIn: "/login",
+    },
+    session: {
+        strategy: 'jwt',
+    },
+    secret: process.env.NEXTAUTH_SECRET,
+
     providers: [
         Credentials({
             name: "Credentials",
             credentials: {
-                email: {},
+                username: {},
                 password: {},
             },
             authorize: async (credentials) => {
                 const response = await fetch(`${process.env.NEXT_PUBLIC_API}/api/auth/login`, {
                     method: 'POST',
                     body: JSON.stringify({
-                        email: credentials?.email,
+                        username: credentials?.username,
                         password: credentials?.password,
                     }),
                     headers: { ...JSON_HEADER },
@@ -29,7 +37,7 @@ export const authOptions: NextAuthOptions = {
                     id: payload.user.id,
                     accessToken: payload.token,
                     user: {
-                        _id: payload.user.id,
+                        id: payload.user.id,
                         username: payload.user.username,
                         firstName: payload.user.firstName,
                         lastName: payload.user.lastName,

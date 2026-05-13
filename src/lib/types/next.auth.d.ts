@@ -9,7 +9,7 @@ declare module "next-auth" {
     interface User {
         accessToken: string;
         user: {
-            _id: string,
+            id: string,
             username: string,
             firstName: string,
             lastName: string,
@@ -30,7 +30,7 @@ declare module "next-auth" {
     interface Session {
         token: string;
         user: {
-            _id: string,
+            id: string,
             username: string,
             firstName: string,
             lastName: string,
@@ -54,7 +54,7 @@ declare module "next-auth/jwt" {
     interface JWT {
         accessToken: string,
         user: {
-            _id: string,
+            id: string,
             username: string,
             firstName: string,
             lastName: string,

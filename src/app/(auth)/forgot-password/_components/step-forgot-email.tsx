@@ -31,7 +31,10 @@ export default function StepForgotEmail({ form, onNext }: Props) {
     const handleNext = stepForm.handleSubmit((values) => {
         form.setValue('email', values.email)
         forgotPassword(values.email, {
-            onSuccess: () => onNext(),
+            onSuccess: (data) => {
+                form.setValue('resetToken', data.resetToken)
+                onNext()
+            },
         })
     })
 

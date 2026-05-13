@@ -127,7 +127,7 @@ const CountrySelect = ({
                 </Button>
             </PopoverTrigger>
 
-            <PopoverContent className="w-75 p-0">
+            <PopoverContent className="p-0 w-75">
                 <Command>
                     <CommandInput
                         placeholder="Search country..."

@@ -5,7 +5,7 @@ declare interface ErrorResponse {
     code: number;
     errors?: Array<{
         path: string;
-        message: string;
+        message: string[];
     }>
 }
 

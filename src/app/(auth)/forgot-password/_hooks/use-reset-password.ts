@@ -4,9 +4,9 @@ import { useRouter } from 'next/navigation'
 import { JSON_HEADER } from '@/lib/constants/constant.api'
 
 type ResetPasswordPayload = {
-    email: string
+    token: string
     newPassword: string
-    resetCode: string
+    confirmPassword: string
 }
 
 export default function useResetPassword() {
@@ -17,9 +17,9 @@ export default function useResetPassword() {
             const response = await fetch(`${process.env.NEXT_PUBLIC_API}/api/auth/reset-password`, {
                 method: 'POST',
                 body: JSON.stringify({
-                    email: payload.email,
+                    token: payload.token,
                     newPassword: payload.newPassword,
-                    resetCode: payload.resetCode,
+                    confirmPassword: payload.confirmPassword,
                 }),
                 headers: { ...JSON_HEADER },
             })

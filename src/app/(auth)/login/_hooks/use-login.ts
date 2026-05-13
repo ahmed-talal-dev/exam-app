@@ -8,7 +8,7 @@ export default function useLogin() {
     const { isPending, error, mutate } = useMutation({
         mutationFn: async (Credentials: LoginFields) => {
             const response = await signIn('credentials', {
-                email: Credentials.email,
+                email: Credentials.username,
                 password: Credentials.password,
                 redirect: false,
             });

@@ -19,7 +19,7 @@ export default function LoginForm() {
         resolver: zodResolver(loginSchema),
         mode: 'onTouched',
         defaultValues: {
-            email: '',
+            username: '',
             password: '',
         },
     })
@@ -35,12 +35,12 @@ export default function LoginForm() {
                 {/* email */}
                 <FormField
                     control={form.control}
-                    name='email'
+                    name='username'
                     render={({ field }) => (
                         <FormItem>
                             <FormLabel>Username</FormLabel>
                             <FormControl>
-                                <Input placeholder="user@example.com" {...field} autoComplete='email' />
+                                <Input placeholder="user123" {...field} autoComplete='email' />
                             </FormControl>
                             <FormMessage />
                         </FormItem>
