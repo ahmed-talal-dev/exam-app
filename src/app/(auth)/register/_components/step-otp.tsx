@@ -1,80 +1,106 @@
-"use client"
-import { Button } from "@/shared/components/ui/button"
-import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/shared/components/ui/input-otp"
-import { Spinner } from "@/shared/components/ui/spinner"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { REGEXP_ONLY_DIGITS } from "input-otp"
-import { useEffect } from "react"
-import { Controller, useForm } from "react-hook-form"
-import * as z from 'zod'
+'use client'
+import { useEffect, useState } from 'react'
+import { UseFormReturn } from 'react-hook-form'
+import { Button } from '@/components/ui/button'
+import { InputOTP, InputOTPGroup, InputOTPSlot } from '@/components/ui/input-otp'
+import { RegisterFields } from '@/lib/types/auth'
+import useSentOtp from '../_hooks/use-sent-otp'
+import useVerifyOtp from '../_hooks/use-verify-otp'
+import SubmissionFeedback from '@/components/shared/submission-feedback'
 
-const schema = z.object({
-    code: z.string().length(6, "Code must be 6 digits")
-})
-
-type OTPData = z.infer<typeof schema>
-
-interface OTPStepProps {
-    onSubmit: (code: string) => void
-    email: string | undefined
-    edit: () => void
-    timer: number
-    onResendOTP?: () => void | undefined
-    isLoading?: boolean
+type StepOtpProps = {
+    form: UseFormReturn<RegisterFields>
+    onNext: () => void
+    onBack: () => void
 }
 
-export default function OTPStep({ onSubmit, email, edit, timer, onResendOTP, isLoading }: OTPStepProps) {
-    const { handleSubmit, control, setFocus } = useForm<OTPData>({ resolver: zodResolver(schema) })
+export default function StepOtp({ form, onNext, onBack }: StepOtpProps) {
+    const [otp, setOtp] = useState('')
+    const email = form.getValues('email')
+    const { isPending: isResending, sentOtp } = useSentOtp()
+    const { isPending, error, verifyOtp } = useVerifyOtp()
 
-
-    useEffect(() => {
-        setTimeout(() => {
-            setFocus('code')
-        }, 100);
-    }, [setFocus])
-
-    async function OTPSubmit(data: OTPData) {
-        await onSubmit(data.code)
+    const handleVerify = () => {
+        if (otp.length === 6) {
+            verifyOtp({ email, otp }, {
+                onSuccess: () => onNext(),
+            })
+        }
     }
 
+    const handleResend = () => {
+        sentOtp(email)
+    }
+
+    const [countdown, setCountdown] = useState(60)
+
+    useEffect(() => {
+        if (countdown === 0) return
+        const timer = setTimeout(() => setCountdown((c) => c - 1), 1000)
+        return () => clearTimeout(timer)
+    }, [countdown])
+
     return (
-        <>
-            <div className="space-y-2.5 pb-6">
-                <p className="text-gray-500">Please enter the 6-digits code we have sent to: <span className="text-gray-800">{email}.</span>
-                    <Button variant={"link"} onClick={edit} className="p-0 font-medium text-blue-600 underline">Edit</Button>
+        <div className="flex flex-col w-full gap-6">
+            <div className="mb-2">
+                <h2 className="text-lg text-blue-600 font-inter font-bold text-[1.5rem] mt-1">Verify OTP</h2>
+                <p className="w-full mt-1 text-sm text-muted-foreground">
+                    Please enter the 6-digits code we have sent to:{' '}
+                    <span className="font-medium text-foreground">{email}</span>
+                    {' '}
+                    <button
+                        type="button"
+                        onClick={onBack}
+                        className="text-xs text-primary hover:underline"
+                    >
+                        Edit
+                    </button>
                 </p>
             </div>
-            <form onSubmit={handleSubmit(OTPSubmit)} className="flex flex-col items-center w-full">
-                <div className="space-y-6">
-                    <Controller
-                        name="code"
-                        control={control}
-                        render={({ field }) => (
-                            <InputOTP maxLength={6} pattern={REGEXP_ONLY_DIGITS} {...field}>
-                                <InputOTPGroup className="gap-4 *:border *:first:rounded-none *:last:rounded-none *:data-[active=true]:ring-blue-600 *:data-[active=true]:ring-0 *:data-[active=true]:border-blue-600 *:data-[active=true]:text-blue-600 *:rounded-none *:font-medium *:text-base *:size-10">
-                                    <InputOTPSlot index={0} />
-                                    <InputOTPSlot index={1} />
-                                    <InputOTPSlot index={2} />
-                                    <InputOTPSlot index={3} />
-                                    <InputOTPSlot index={4} />
-                                    <InputOTPSlot index={5} />
-                                </InputOTPGroup>
-                            </InputOTP>
-                        )}
-                    />
-                    {timer !== 0 ?
-                        <p className="text-sm font-medium text-gray-500">You can request another code in: {timer}s</p>
-                        :
-                        <p className="text-sm font-medium text-gray-500">Didn&apos;t receive the code? <Button variant={"link"} onClick={onResendOTP} className="p-0 text-blue-600">Resend</Button></p>
-                    }
-                </div>
-                <Button className='w-full bg-transparent rounded-none border border-blue-600 hover:bg-blue-600 hover:text-white duration-300 text-gray-800 mt-9 mb-10 gap-2.5' disabled={isLoading}>
-                    {isLoading ?
-                        <Spinner className='w-5 h-5 text-blue-600' /> :
-                        'Verify Code'
-                    }
+
+            {/* OTP Input */}
+            <div className="flex justify-center">
+                <InputOTP maxLength={6} value={otp} onChange={setOtp}>
+                    <InputOTPGroup>
+                        <InputOTPSlot index={0} />
+                        <InputOTPSlot index={1} />
+                        <InputOTPSlot index={2} />
+                        <InputOTPSlot index={3} />
+                        <InputOTPSlot index={4} />
+                        <InputOTPSlot index={5} />
+                    </InputOTPGroup>
+                </InputOTP>
+            </div>
+
+            <SubmissionFeedback>{error?.message}</SubmissionFeedback>
+
+            {/* Resend */}
+            <p className="text-sm text-center text-muted-foreground">
+                You can request another code in: 60s{' '}
+                <button
+                    type="button"
+                    onClick={handleResend}
+                    disabled={isResending || countdown > 0}
+                    className="font-medium text-primary hover:underline disabled:opacity-50"
+                >
+                    {isResending ? 'Sending...' : countdown > 0 ? `Resend in ${countdown}s` : 'Resend'}
+                </button>
+            </p>
+
+            {/* Buttons */}
+            <div className="flex gap-3">
+                <Button type="button" variant="secondary" className="flex-1" onClick={onBack}>
+                    ← Back
                 </Button>
-            </form>
-        </>
+                <Button
+                    type="button"
+                    className="flex-1"
+                    onClick={handleVerify}
+                    disabled={otp.length < 6 || isPending}
+                >
+                    {isPending ? 'Verifying...' : 'Verify Code'}
+                </Button>
+            </div>
+        </div>
     )
 }
