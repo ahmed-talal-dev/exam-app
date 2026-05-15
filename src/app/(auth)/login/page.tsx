@@ -3,6 +3,7 @@ import LoginForm from './_components/login-form'
 import Link from 'next/link'
 
 export default function LoginPage() {
+    
     return (
         <main className='flex flex-col items-center justify-center min-h-screen bg-white'>
             <div className='flex flex-col w-full max-w-sm md:max-w-md '>

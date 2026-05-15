@@ -21,7 +21,7 @@ export default async function middleware(request: NextRequest) {
         return NextResponse.redirect(redirectUrl);
     }
 
-    if (authRoutes.includes(pathname)) {
+    if (authRoutes.some(route => pathname.startsWith(route))) {
         if (token) {
             return NextResponse.redirect(new URL('/', request.nextUrl.origin));
         }
