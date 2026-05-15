@@ -20,6 +20,8 @@ export const authOptions: NextAuthOptions = {
                 password: {},
             },
             authorize: async (credentials) => {
+                console.log('authorize received:', credentials)
+
                 const response = await fetch(`${process.env.NEXT_PUBLIC_API}/api/auth/login`, {
                     method: 'POST',
                     body: JSON.stringify({
@@ -30,6 +32,9 @@ export const authOptions: NextAuthOptions = {
                 });
 
                 const payload: APIResponse<LoginResponse> = await response.json();
+                console.log('backend response status:', response.status)
+                console.log('backend response payload:', payload)
+
                 if ('code' in payload) {
                     throw new Error(payload.message)
                 }

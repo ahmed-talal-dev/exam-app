@@ -7,11 +7,19 @@ export default function useLogin() {
     //Mutation 
     const { isPending, error, mutate } = useMutation({
         mutationFn: async (Credentials: LoginFields) => {
+            console.log('Sending to signIn:', {
+                username: Credentials.username,
+                password: Credentials.password,
+            })
+
             const response = await signIn('credentials', {
-                email: Credentials.username,
+                username: Credentials.username,
                 password: Credentials.password,
                 redirect: false,
             });
+
+            console.log('signIn response:', response)
+
             if (response?.error) {
                 throw new Error(response.error)
             }
