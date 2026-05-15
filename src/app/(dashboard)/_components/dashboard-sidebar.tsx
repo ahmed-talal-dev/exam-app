@@ -1,7 +1,7 @@
 'use client'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { GraduationCap, UserRound, FolderCode, EllipsisVertical, LogOut } from 'lucide-react'
+import { GraduationCap, UserRound, FolderCode, EllipsisVertical, LogOut, Settings } from 'lucide-react'
 import { getSession } from 'next-auth/react'
 import { useEffect, useState } from 'react'
 import useLogout from '@/app/(auth)/logout/_hooks/use-logout'
@@ -11,6 +11,7 @@ import {
     DropdownMenuItem,
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
+import Image from 'next/image'
 
 const NAV_LINKS = [
     { href: '/', label: 'Diplomas', icon: GraduationCap },
@@ -35,13 +36,16 @@ export default function Sidebar() {
     }, [])
 
     return (
-        <aside className="flex flex-col gap-[60px] items-start p-10 bg-blue-50 h-full w-[362px] shrink-0">
+        <aside className="flex flex-col gap-15 items-start p-10 bg-blue-50 h-full w-90.5 shrink-0">
             {/* Logo */}
             <div className="flex flex-col gap-2">
-                <div className="h-[37px] w-48">
-                    {/* Replace with your actual logo image */}
-                    <img src="/public/" alt="Elevate" className="h-[37px] w-auto" />                </div>
-                <div className="flex items-center gap-2">
+                <Image
+                    src="/logo.png"
+                    alt="Elevate"
+                    width={192}
+                    height={37}
+                    className="object-contain"
+                />                <div className="flex items-center gap-2">
                     <FolderCode className="text-blue-600 size-7" />
                     <span className="font-mono text-lg font-semibold text-blue-600">Exam App</span>
                 </div>
@@ -52,7 +56,10 @@ export default function Sidebar() {
                 {/* Links */}
                 <div className="flex flex-col w-full gap-2">
                     {NAV_LINKS.map(({ href, label, icon: Icon }) => {
-                        const isActive = pathname === href || (href !== '/' && pathname.startsWith(href))
+                        const isActive =
+                            href === '/'
+                                ? pathname === '/' || pathname.startsWith('/diplomas')
+                                : pathname.startsWith(href)
                         return (
                             <Link
                                 key={href}
@@ -74,9 +81,9 @@ export default function Sidebar() {
                 <div className="flex items-center justify-between w-full">
                     <div className="flex items-center gap-2">
                         {/* Avatar */}
-                        <div className="size-[54px] rounded-full border border-blue-600 overflow-hidden shrink-0 bg-white">
+                        <div className="size-13.5 rounded-full border border-blue-600 overflow-hidden shrink-0 bg-white">
                             {user?.profilePhoto ? (
-                                <img
+                                <Image
                                     src={user.profilePhoto}
                                     alt={user.firstName ?? ''}
                                     className="object-cover size-full"
@@ -101,12 +108,27 @@ export default function Sidebar() {
                     {/* Menu */}
                     <DropdownMenu>
                         <DropdownMenuTrigger className="flex items-center justify-center transition-colors rounded size-7 hover:bg-blue-100">
-                            <EllipsisVertical className="size-[18px] text-gray-500" />
+                            <EllipsisVertical className="text-gray-500 size-18px" />
                         </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end">
-                            <DropdownMenuItem onClick={logout} className="text-red-500 cursor-pointer">
-                                <LogOut className="mr-2 size-4" />
-                                Logout
+                        <DropdownMenuContent align="end" className='w-40'>
+                            <DropdownMenuItem asChild>
+                                <Link href="/account" className="flex items-center gap-2 cursor-pointer">
+                                    <UserRound className="text-gray-500 size-4" />
+                                    <span>Account</span>
+                                </Link>
+                            </DropdownMenuItem>
+                            <DropdownMenuItem asChild>
+                                <Link href="/" className="flex items-center gap-2 cursor-pointer">
+                                    <Settings className="text-gray-500 size-4" />
+                                    <span>Dashboard</span>
+                                </Link>
+                            </DropdownMenuItem>
+                            <DropdownMenuItem
+                                onClick={logout}
+                                className="flex items-center gap-2 text-red-500 cursor-pointer focus:text-red-500"
+                            >
+                                <LogOut className="size-4" />
+                                <span>Logout</span>
                             </DropdownMenuItem>
                         </DropdownMenuContent>
                     </DropdownMenu>
