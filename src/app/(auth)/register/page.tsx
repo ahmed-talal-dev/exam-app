@@ -6,7 +6,7 @@ export default function RegisterPage() {
     return (
         <main className='flex flex-col items-center justify-center h-screen bg-white'>
             {/*heading*/}
-            <h1 className='w-full text-3xl font-bold text-gray-800 font-inter max-w-112 pt-22 pb-7 '>Create Account</h1>
+            <h1 className='w-full mt-6 text-3xl font-bold text-gray-800 font-inter max-w-112 pt-22 pb-7 '>Create Account</h1>
 
             {/*form*/}
 

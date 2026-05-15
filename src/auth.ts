@@ -19,9 +19,7 @@ export const authOptions: NextAuthOptions = {
                 username: {},
                 password: {},
             },
-            authorize: async (credentials) => {
-                console.log('authorize received:', credentials)
-
+            authorize: async (credentials): Promise<any> => {
                 const response = await fetch(`${process.env.NEXT_PUBLIC_API}/api/auth/login`, {
                     method: 'POST',
                     body: JSON.stringify({
@@ -31,29 +29,28 @@ export const authOptions: NextAuthOptions = {
                     headers: { ...JSON_HEADER },
                 });
 
-                const payload: APIResponse<LoginResponse> = await response.json();
-                console.log('backend response status:', response.status)
-                console.log('backend response payload:', payload)
+                const payload: LoginResponse = await response.json();
 
-                if ('code' in payload) {
-                    throw new Error(payload.message)
+                if (!response.ok) {
+                    throw new Error('Login failed')
                 }
+
                 return {
-                    id: payload.user.id,
-                    accessToken: payload.token,
+                    id: payload.payload.user.id,
+                    accessToken: payload.payload.token,
                     user: {
-                        id: payload.user.id,
-                        username: payload.user.username,
-                        firstName: payload.user.firstName,
-                        lastName: payload.user.lastName,
-                        email: payload.user.email,
-                        phone: payload.user.phone,
-                        role: payload.user.role,
-                        emailVerified: payload.user.emailVerified,
-                        phoneVerified: payload.user.phoneVerified,
-                        profilePhoto: payload.user.profilePhoto,
-                        createdAt: payload.user.createdAt,
-                        updatedAt: payload.user.updatedAt,
+                        id: payload.payload.user.id,
+                        username: payload.payload.user.username,
+                        firstName: payload.payload.user.firstName,
+                        lastName: payload.payload.user.lastName,
+                        email: payload.payload.user.email,
+                        phone: payload.payload.user.phone,
+                        role: payload.payload.user.role,
+                        emailVerified: payload.payload.user.emailVerified,
+                        phoneVerified: payload.payload.user.phoneVerified,
+                        profilePhoto: payload.payload.user.profilePhoto,
+                        createdAt: payload.payload.user.createdAt,
+                        updatedAt: payload.payload.user.updatedAt,
                     }
                 }
             },
@@ -65,7 +62,6 @@ export const authOptions: NextAuthOptions = {
                 token.accessToken = user.accessToken
                 token.user = user.user
             }
-
             return token;
         },
         session: ({ session, token }) => {
@@ -75,4 +71,3 @@ export const authOptions: NextAuthOptions = {
         }
     },
 }
-

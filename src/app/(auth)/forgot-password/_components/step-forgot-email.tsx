@@ -41,8 +41,8 @@ export default function StepForgotEmail({ form, onNext }: Props) {
     return (
         <Form {...stepForm}>
             <form onSubmit={handleNext} className="flex flex-col w-full gap-4">
-                <div className="mb-2">
-                    <h2 className="text-3xl font-bold font-inter">Forgot Password</h2>
+                <div className="mt-2 mb-2">
+                    <h2 className="mt-2 mt-8 text-3xl font-bold font-inter ">Forgot Password</h2>
                     <p className="mt-2 font-mono text-[16px] text-muted-foreground">
                         Don&apos;t worry, we will help you recover your account.
                     </p>

@@ -1,6 +1,6 @@
 'use client'
 import { useState } from 'react'
-import { SubmitHandler, useForm } from 'react-hook-form'
+import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { registerSchema } from '@/lib/schemes/auth.schema'
 import { RegisterFields } from '@/lib/types/auth'
@@ -50,7 +50,6 @@ export default function RegisterStepper() {
         register(form.getValues())
     }
 
-
     return (
         <div className="w-full max-w-md">
             {/* Step Indicators */}
@@ -80,7 +79,6 @@ export default function RegisterStepper() {
                                 {step.label}
                             </span>
                         </div>
-                        {/* Connector line */}
                         {index < STEPS.length - 1 && (
                             <div className={`h-0.5 w-10 mb-4 rounded-full transition-all duration-500
                                 ${currentStep > step.id ? 'bg-primary' : 'bg-muted'}`}
@@ -90,7 +88,6 @@ export default function RegisterStepper() {
                 ))}
             </div>
 
-            {/* Steps */}
             {currentStep === 1 && (
                 <StepEmail form={form} onNext={handleEmailNext} />
             )}

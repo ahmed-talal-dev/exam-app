@@ -18,7 +18,7 @@ export default function useRegister() {
                     confirmPassword: fields.rePassword,
                     firstName: fields.firstName,
                     lastName: fields.lastName,
-                    phone: fields.phone,
+                    phone: fields.phone.replace(/^\+2/, ''),
                 }),
                 headers: { ...JSON_HEADER },
             })

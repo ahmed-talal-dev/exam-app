@@ -1,12 +1,11 @@
 'use client'
-import { signOut } from "next-auth/react";
+import { signOut, getSession } from "next-auth/react";
 import { JSON_HEADER } from "@/lib/constants/constant.api";
-import { useSession } from "next-auth/react";
 
 export default function useLogout() {
-    const { data: session } = useSession()
-
     const logout = async () => {
+        const session = await getSession()
+
         await fetch(`${process.env.NEXT_PUBLIC_API}/api/auth/logout`, {
             method: 'GET',
             headers: {

@@ -11,7 +11,7 @@ export default function StepForgotOtp({ form, onBack }: Props) {
     const email = form.getValues('email')
 
     return (
-        <div className="flex flex-col w-full gap-6">
+        <div className="flex flex-col w-full gap-6 mt-7">
             <button
                 type="button"
                 onClick={onBack}
