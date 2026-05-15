@@ -1,5 +1,5 @@
 'use client'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { UseFormReturn } from 'react-hook-form'
 import { Button } from '@/components/ui/button'
 import { InputOTP, InputOTPGroup, InputOTPSlot } from '@/components/ui/input-otp'
@@ -31,14 +31,6 @@ export default function StepOtp({ form, onNext, onBack }: StepOtpProps) {
     const handleResend = () => {
         sentOtp(email)
     }
-
-    const [countdown, setCountdown] = useState(60)
-
-    useEffect(() => {
-        if (countdown === 0) return
-        const timer = setTimeout(() => setCountdown((c) => c - 1), 1000)
-        return () => clearTimeout(timer)
-    }, [countdown])
 
     return (
         <div className="flex flex-col w-full gap-6">
@@ -80,10 +72,10 @@ export default function StepOtp({ form, onNext, onBack }: StepOtpProps) {
                 <button
                     type="button"
                     onClick={handleResend}
-                    disabled={isResending || countdown > 0}
+                    disabled={isResending}
                     className="font-medium text-primary hover:underline disabled:opacity-50"
                 >
-                    {isResending ? 'Sending...' : countdown > 0 ? `Resend in ${countdown}s` : 'Resend'}
+                    {isResending ? 'Sending...' : 'Resend'}
                 </button>
             </p>
 

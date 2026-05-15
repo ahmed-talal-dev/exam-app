@@ -5,6 +5,7 @@ import { JSON_HEADER } from "@/lib/constants/constant.api";
 export default function useVerifyOtp() {
     const { isPending, error, mutate } = useMutation({
         mutationFn: async ({ email, otp }: { email: string; otp: string }) => {
+            console.log('verifying:', { email, code: otp }) // ← هنا
             const response = await fetch(`${process.env.NEXT_PUBLIC_API}/api/auth/confirm-email-verification`, {
                 method: "POST",
                 body: JSON.stringify({ email, code: otp }),
